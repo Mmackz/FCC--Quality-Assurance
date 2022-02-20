@@ -27,7 +27,6 @@ suite("Functional Tests", function () {
             .get("/hello?name=mattie")
             .end(function (err, res) {
                assert.equal(res.status, 200);
-               console.log(res.text)
                assert.equal(res.text, "hello mattie");
                done();
             });
