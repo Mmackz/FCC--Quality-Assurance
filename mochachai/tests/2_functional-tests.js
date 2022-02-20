@@ -24,10 +24,11 @@ suite("Functional Tests", function () {
       test("Test GET /hello with your name", function (done) {
          chai
             .request(server)
-            .get("/hello?name=xy_z")
+            .get("/hello?name=mattie")
             .end(function (err, res) {
                assert.equal(res.status, 200);
-               assert.strictEqual(res.text, "hello xy_z");
+               console.log(res.text)
+               assert.equal(res.text, "hello mattie");
                done();
             });
       });
@@ -38,12 +39,10 @@ suite("Functional Tests", function () {
             .put("/travellers")
             .send({ surname: "Colombo" })
             .end(function (err, res) {
-               assert.strictEqual(res.status, 200);
-               assert.strictEqual(res.type, "application/json");
-               assert.isString(res.body.name);
-               assert.strictEqual(res.body.name, "Cristoforo");
-               assert.isString(res.body.surname);
-               assert.strictEqual(res.body.surname, "Colombo");
+               assert.equal(res.status, 200);
+               assert.equal(res.type, "application/json");
+               assert.equal(res.body.name, "Cristoforo");
+               assert.equal(res.body.surname, "Colombo");
                done();
             });
       });
@@ -53,15 +52,13 @@ suite("Functional Tests", function () {
             .request(server)
             .put("/travellers")
             .send({ surname: "da Verrazzano" })
-            .end((err, res) => {
-               assert.strictEqual(res.status, 200);
-               assert.strictEqual(res.type, "application/json");
-               assert.isString(res.body.name);
-               assert.strictEqual(res.body.name, "Giovanni");
-               assert.isString(res.body.surname);
-               assert.strictEqual(res.body.surname, "da Verrazzano");
+            .end(function (err, res) {
+               assert.equal(res.status, 200);
+               assert.equal(res.type, "application/json");
+               assert.equal(res.body.name, "Giovanni");
+               assert.equal(res.body.surname, "da Verrazzano");
+               done();
             });
-         done();
       });
    });
 });
