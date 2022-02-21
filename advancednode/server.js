@@ -40,8 +40,21 @@ myDB(async (client) => {
    const myDataBase = await client.db("database").collection("users");
 
    app.route("/").get((req, res) => {
-      res.render("index", { title: "Connected to Database", message: "Please login" });
+      res.render("index", {
+         title: "Connected to Database",
+         message: "Please login",
+         showLogin: true
+      });
    });
+
+   app.post(
+      "/login",
+      passport.authenticate("local", { failureRedirect: "/", failuremessage: true }),
+      (req, res) => {
+         res.redirect("/");
+         console.log(`User ${req.user.name} attempted to log in.`);
+      }
+   );
 
    passport.use(
       new LocalStrategy((username, password, done) => {
