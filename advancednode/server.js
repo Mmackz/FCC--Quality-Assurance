@@ -36,6 +36,15 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+function ensureAuthenticated(req, res, next) {
+   console.log("HI")
+   console.log(req.isAuthenticated())
+   if (req.isAuthenticated()) {
+      return next;
+   }
+   res.redirect("/");
+}
+
 myDB(async (client) => {
    const myDataBase = await client.db("database").collection("users");
 
@@ -51,10 +60,14 @@ myDB(async (client) => {
       "/login",
       passport.authenticate("local", { failureRedirect: "/", failuremessage: true }),
       (req, res) => {
-         res.redirect("/");
+         res.redirect("/profile");
          console.log(`User ${req.user.name} attempted to log in.`);
       }
    );
+
+   app.get("/profile", ensureAuthenticated, (req, res) => {
+      res.render("profile")
+   })
 
    passport.use(
       new LocalStrategy((username, password, done) => {
