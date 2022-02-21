@@ -37,8 +37,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 function ensureAuthenticated(req, res, next) {
-   console.log("HI")
-   console.log(req.isAuthenticated())
    if (req.isAuthenticated()) {
       return next;
    }
@@ -66,7 +64,7 @@ myDB(async (client) => {
    );
 
    app.get("/profile", ensureAuthenticated, (req, res) => {
-      res.render("profile")
+      res.render("profile", {username: req.user.username})
    })
 
    passport.use(
